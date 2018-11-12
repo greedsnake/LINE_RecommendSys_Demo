@@ -42,11 +42,12 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('tALJGyw5Gzes13Eo59pE+eRR5fV11Dw6SYCshuxGkwjaMr+PEI+EeKY9YzoUyERZIccZqD4zTt4LKtYkVQINT1eOEgZaPtAReN+Oc2V8hsmbNgNsw+SnQDuqDLo8EzR1+7ID/7KkCNCbmMURnvxhQQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('ee211365f9ec399943c478989fe2eed5')
 
-
+message1 = ""
+message2 = ""
+message3 = ""
 
 @app.route("/callback", methods=['POST'])
 def callback():
-
     
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
@@ -62,7 +63,6 @@ def callback():
         abort(400)
 
     return 'OK'
-
 
 @handler.add(FollowEvent)
 def handle_follow(event):
@@ -86,10 +86,6 @@ def handle_follow(event):
                'ready':0}
         
         mongodb.insert_one(dic,'users')
-
-message1 = ""
-message2 = ""
-message3 = ""
 
 @handler.add(MessageEvent, message=TextMessage)
 
@@ -139,6 +135,10 @@ def handle_message(event):
       
     def get_gender(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
+      remessage = TextSendMessage(text='hello')
+      line_bot_api.reply_message(
+                      event.reply_token,
+                      remessage)
       message3 = message
       
     def clear():
@@ -163,11 +163,11 @@ def handle_message(event):
                       remessage)
       text = report(message1,message2,message3)
       # 包裝訊息
-      remessage = TextSendMessage(text=text)
+      remessage2 = TextSendMessage(text=text)
       # 回應使用者
       line_bot_api.reply_message(
                       event.reply_token,
-                      remessage)      
+                      remessage2)      
     
     def report(x,y,z):
         
