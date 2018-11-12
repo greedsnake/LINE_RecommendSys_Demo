@@ -116,6 +116,7 @@ def handle_message(event):
       global msg1,fmsg1
       fmsg1 = 0
       msg1 = message
+      rmsg1 = '顧客id=' + msg1
       line_bot_api.reply_message(
                       event.reply_token,
                       msg1)
@@ -132,12 +133,13 @@ def handle_message(event):
            
     def get_age(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2,fmsg3
-      fmsg3 = 0
+      global msg2,fmsg2
+      fmsg2 = 0
       msg2 = message
+      rmsg2 = '顧客年齡=' + msg2
       line_bot_api.reply_message(
                       event.reply_token,
-                      msg2)
+                      rmsg2)
     
     def choose_gender():
       # 設定使用者下一句話要群廣播
@@ -154,9 +156,10 @@ def handle_message(event):
       global msg3,fmsg3
       fmsg3 = 0
       msg3 = message
+      rmsg3 = '顧客性別=' + msg3
       line_bot_api.reply_message(
                       event.reply_token,
-                      msg3)
+                      rmsg3)
       
     def clear():
       global msg1,msg2,msg3
@@ -216,13 +219,16 @@ def handle_message(event):
         return 0 
     
     if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
-        get_id(message)        
+        get_id(message)
+        return 0
     
     if mongodb.get_ready(uid,'users') ==1 and fmsg2==1:
         get_age(message)
+        return 0
     
     if mongodb.get_ready(uid,'users') ==1 and fmsg3==1:
         get_gender(message)
+        return 0
     """
     line_bot_api.reply_message(
         event.reply_token,
