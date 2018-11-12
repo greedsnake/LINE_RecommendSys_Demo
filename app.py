@@ -158,6 +158,7 @@ def handle_message(event):
                       remessage)
       
     def suggest(message,msg3):
+      global msg1,msg2,msg3
       if msg3==0:
           sex="女性"
       elif msg3==1:
@@ -177,6 +178,7 @@ def handle_message(event):
                       remessage2)      
     
     def report(x,y,z):        
+        global string
         string = '誠心推薦!!%s, %s, %s' % (str(x),str(y),str(z))
         return string
       
