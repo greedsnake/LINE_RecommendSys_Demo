@@ -92,7 +92,8 @@ def handle_follow(event):
 @handler.add(MessageEvent, message=TextMessage)
 
 def handle_message(event):
-
+    
+    global msg1,msg2,msg3
     '''
     當收到使用者訊息的時候
     '''
@@ -181,18 +182,23 @@ def handle_message(event):
       
     if message == 'ID':
         choose_id()
-        
+        return 0 
+    
     if message == '年齡':
         choose_age()
+        return 0 
     
     if message == '性別':
         choose_gender()
+        return 0 
     
     if message == '清除':
         clear()
+        return 0 
     
     if message == '推薦':
         suggest(message,msg3)
+        return 0 
     
     if mongodb.get_ready(uid,'users') ==1 and msg1==1:
         get_id(message)        
