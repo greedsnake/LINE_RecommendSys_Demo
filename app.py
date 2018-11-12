@@ -161,19 +161,19 @@ def handle_message(event):
       
     def suggest(message,msg3):
       global msg1,msg2
-      msg1 = msg1
-      msg2 = msg2
+      cid = msg1
+      age = msg2
       if msg3==0:
           sex="女性"
       elif msg3==1:
           sex="男性"
       else:
           sex="未知"
-      remessage = TextSendMessage(text='查詢顧客ID=%s; 年齡=%s; 性別=%s 的推薦商品:' % (str(msg1), str(msg2), sex) )
+      remessage = TextSendMessage(text='查詢顧客ID=%s; 年齡=%s; 性別=%s 的推薦商品:' % (str(cid), str(age), sex) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
-      text = report(msg1,msg2,msg3)
+      text = report(cid,age,sex)
       # 包裝訊息
       remessage2 = TextSendMessage(text=text)
       # 回應使用者
