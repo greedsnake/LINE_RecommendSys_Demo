@@ -104,31 +104,37 @@ def handle_message(event):
     def choose_id():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
+      global msg1
       msg1 = 1
       remessage = TextSendMessage(text='請輸入客戶編號')
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
+      
     def get_id(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
+      global msg1
       msg1 = message
       
     def choose_age():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
+      global msg2
       msg2 = 1
       remessage = TextSendMessage(text='請輸入客戶年齡')
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
-      
+           
     def get_age(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
+      global msg2
       msg2 = message
     
     def choose_gender():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
+      global msg3
       msg3 = 1
       remessage = TextSendMessage(text='請輸入客戶性別(0:女性; 1:男性)')
       line_bot_api.reply_message(
@@ -137,9 +143,11 @@ def handle_message(event):
       
     def get_gender(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
+      global msg3
       msg3 = message
       
     def clear():
+      global msg1,msg2,msg3
       msg1 = ""
       msg2 = ""
       msg3 = ""
@@ -148,7 +156,7 @@ def handle_message(event):
                       event.reply_token,
                       remessage)
       
-    def suggest(message):
+    def suggest(message,msg3):
       if msg3==0:
           sex="女性"
       elif msg3==1:
@@ -167,8 +175,7 @@ def handle_message(event):
                       event.reply_token,
                       remessage2)      
     
-    def report(x,y,z):
-        
+    def report(x,y,z):        
         string = '誠心推薦!!%s, %s, %s' % (str(x),str(y),str(z))
         return string
       
@@ -189,7 +196,7 @@ def handle_message(event):
         return 0 
     
     if message == '推薦':
-        suggest(message)
+        suggest(message,msg3)
         return 0 
     
     if mongodb.get_ready(uid,'users') ==1 and msg1==1:
