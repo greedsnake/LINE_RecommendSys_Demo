@@ -172,9 +172,9 @@ def handle_message(event):
       global msg1,msg2
       cid = msg1
       age = msg2
-      if msg3==0:
+      if str(msg3)==str(0):
           sex="女性"
-      elif msg3==1:
+      elif str(msg3)==str(1):
           sex="男性"
       else:
           sex="未知"
