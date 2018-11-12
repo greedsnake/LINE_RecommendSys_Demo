@@ -93,7 +93,6 @@ def handle_follow(event):
 
 def handle_message(event):
     
-    global msg1,msg2,msg3
     '''
     當收到使用者訊息的時候
     '''
@@ -159,13 +158,15 @@ def handle_message(event):
       
     def suggest(message,msg3):
       global msg1,msg2
+      msg1 = msg1
+      msg2 = msg2
       if msg3==0:
           sex="女性"
       elif msg3==1:
           sex="男性"
       else:
           sex="未知"
-      remessage = TextSendMessage(text='查詢顧客ID=%s;年齡=%s; 性別=%s 的推薦商品:' % (str(msg1), str(msg2), sex) )
+      remessage = TextSendMessage(text='查詢顧客ID=%s; 年齡=%s; 性別=%s 的推薦商品:' % (str(msg1), str(msg2), sex) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -177,9 +178,9 @@ def handle_message(event):
                       event.reply_token,
                       remessage2)      
     
-    def report(x,y,z):        
+    def report(msg1,msg2,msg3):        
         global string
-        string = '誠心推薦!!%s, %s, %s' % (str(x),str(y),str(z))
+        string = '誠心推薦!!%s, %s, %s' % (str(msg1),str(msg2)),str(msg3))
         return string
       
     if message == 'ID':
