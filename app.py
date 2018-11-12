@@ -42,9 +42,9 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('tALJGyw5Gzes13Eo59pE+eRR5fV11Dw6SYCshuxGkwjaMr+PEI+EeKY9YzoUyERZIccZqD4zTt4LKtYkVQINT1eOEgZaPtAReN+Oc2V8hsmbNgNsw+SnQDuqDLo8EzR1+7ID/7KkCNCbmMURnvxhQQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('ee211365f9ec399943c478989fe2eed5')
 
-message1 = ""
-message2 = ""
-message3 = ""
+msg1 = ""
+msg2 = ""
+msg3 = ""
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -102,19 +102,19 @@ def handle_message(event):
     def choose_id():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      message1 = 1
+      msg1 = 1
       remessage = TextSendMessage(text='請輸入客戶編號')
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
     def get_id(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      message1 = message
+      msg1 = message
       
     def choose_age():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      message2 = 1
+      msg2 = 1
       remessage = TextSendMessage(text='請輸入客戶年齡')
       line_bot_api.reply_message(
                       event.reply_token,
@@ -122,38 +122,34 @@ def handle_message(event):
       
     def get_age(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      message2 = message
+      msg2 = message
     
     def choose_gender():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      message3 = 1
-      remessage = TextSendMessage(text='請輸入客戶性別(0:女性; 1:男性')
+      msg3 = 1
+      remessage = TextSendMessage(text='請輸入客戶性別(0:女性; 1:男性)')
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
       
     def get_gender(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      remessage = TextSendMessage(text='hello')
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
-      message3 = message
+      msg3 = message
       
     def clear():
-      message1 = ""
-      message2 = ""
-      message3 = ""
+      msg1 = ""
+      msg2 = ""
+      msg3 = ""
       remessage = TextSendMessage(text='已清除輸入資料')
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
       
     def suggest(message):
-      if message3==0:
+      if msg3==0:
           sex="女性"
-      elif message3==1:
+      elif msg3==1:
           sex="男性"
       else:
           sex="未知"
@@ -161,7 +157,7 @@ def handle_message(event):
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
-      text = report(message1,message2,message3)
+      text = report(msg1,msg2,msg3)
       # 包裝訊息
       remessage2 = TextSendMessage(text=text)
       # 回應使用者
@@ -194,15 +190,15 @@ def handle_message(event):
         suggest(message)
         return 0 
     
-    if mongodb.get_ready(uid,'users') ==1 & message==1:
+    if mongodb.get_ready(uid,'users') ==1 and msg1==1:
         get_id(message)
         return 0 
     
-    if mongodb.get_ready(uid,'users') ==1 & message2==1:
+    if mongodb.get_ready(uid,'users') ==1 and msg2==1:
         get_age(message)
         return 0 
     
-    if mongodb.get_ready(uid,'users') ==1 & message3==1:
+    if mongodb.get_ready(uid,'users') ==1 and msg3==1:
         get_gender(message)
         return 0 
     
