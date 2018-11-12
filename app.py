@@ -159,7 +159,7 @@ def handle_message(event):
                       event.reply_token,
                       remessage)
       
-    def suggest(message,msg3):
+    def suggest(message):
       global msg1,msg2
       cid = msg1
       age = msg2
@@ -203,7 +203,7 @@ def handle_message(event):
         return 0 
     
     if message == '推薦':
-        suggest(message,msg3)
+        suggest(message)
         return 0 
     
     if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
