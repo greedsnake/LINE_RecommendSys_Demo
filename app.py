@@ -116,6 +116,9 @@ def handle_message(event):
       global msg1,fmsg1
       fmsg1 = 0
       msg1 = message
+      line_bot_api.reply_message(
+                      event.reply_token,
+                      msg1)
       
     def choose_age():
       # 設定使用者下一句話要群廣播
@@ -132,6 +135,9 @@ def handle_message(event):
       global msg2,fmsg3
       fmsg3 = 0
       msg2 = message
+      line_bot_api.reply_message(
+                      event.reply_token,
+                      msg2)
     
     def choose_gender():
       # 設定使用者下一句話要群廣播
@@ -148,6 +154,9 @@ def handle_message(event):
       global msg3,fmsg3
       fmsg3 = 0
       msg3 = message
+      line_bot_api.reply_message(
+                      event.reply_token,
+                      msg3)
       
     def clear():
       global msg1,msg2,msg3
