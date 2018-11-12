@@ -45,7 +45,7 @@ handler = WebhookHandler('ee211365f9ec399943c478989fe2eed5')
 msg1 = ""
 msg2 = ""
 msg3 = ""
-
+fmsg1 = fmsg2 = fmsg3 = 0
 
 @app.route("/callback", methods=['POST'])
 
@@ -119,7 +119,7 @@ def handle_message(event):
       rmsg1 = '顧客id=' + msg1
       line_bot_api.reply_message(
                       event.reply_token,
-                      msg1)
+                      rmsg1)
       
     def choose_age():
       # 設定使用者下一句話要群廣播
@@ -196,8 +196,20 @@ def handle_message(event):
     def report(msg1,msg2,msg3):        
         global string
         string = '誠心推薦!!%s, %s, %s' % (str(msg1),str(msg2),str(msg3))
-        return string
-      
+        return string 
+    
+    if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
+        get_id(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fmsg2==1:
+        get_age(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fmsg3==1:
+        get_gender(message)
+        return 0
+     
     if message == 'ID':
         choose_id()
         return 0 
@@ -217,18 +229,7 @@ def handle_message(event):
     if message == '推薦':
         suggest(message)
         return 0 
-    
-    if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
-        get_id(message)
-        return 0
-    
-    if mongodb.get_ready(uid,'users') ==1 and fmsg2==1:
-        get_age(message)
-        return 0
-    
-    if mongodb.get_ready(uid,'users') ==1 and fmsg3==1:
-        get_gender(message)
-        return 0
+
     """
     line_bot_api.reply_message(
         event.reply_token,
