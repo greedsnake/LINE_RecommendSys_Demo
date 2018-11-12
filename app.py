@@ -104,8 +104,8 @@ def handle_message(event):
     def choose_id():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      global msg1
-      msg1 = 1
+      global fmsg1
+      fmsg1 = 1
       remessage = TextSendMessage(text='請輸入客戶編號')
       line_bot_api.reply_message(
                       event.reply_token,
@@ -113,14 +113,15 @@ def handle_message(event):
       
     def get_id(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1
+      global msg1,fmsg1
+      fmsg1 = 0
       msg1 = message
       
     def choose_age():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      global msg2
-      msg2 = 1
+      global fmsg2
+      fmsg2 = 1
       remessage = TextSendMessage(text='請輸入客戶年齡')
       line_bot_api.reply_message(
                       event.reply_token,
@@ -128,14 +129,15 @@ def handle_message(event):
            
     def get_age(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2
+      global msg2,fmsg3
+      fmsg3 = 0
       msg2 = message
     
     def choose_gender():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      global msg3
-      msg3 = 1
+      global fmsg3
+      fmsg3 = 1
       remessage = TextSendMessage(text='請輸入客戶性別(0:女性; 1:男性)')
       line_bot_api.reply_message(
                       event.reply_token,
@@ -143,7 +145,8 @@ def handle_message(event):
       
     def get_gender(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg3
+      global msg3,fmsg3
+      fmsg3 = 0
       msg3 = message
       
     def clear():
@@ -203,13 +206,13 @@ def handle_message(event):
         suggest(message,msg3)
         return 0 
     
-    if mongodb.get_ready(uid,'users') ==1 and msg1==1:
+    if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
         get_id(message)        
     
-    if mongodb.get_ready(uid,'users') ==1 and msg2==1:
+    if mongodb.get_ready(uid,'users') ==1 and fmsg2==1:
         get_age(message)
     
-    if mongodb.get_ready(uid,'users') ==1 and msg3==1:
+    if mongodb.get_ready(uid,'users') ==1 and fmsg3==1:
         get_gender(message)
     """
     line_bot_api.reply_message(
