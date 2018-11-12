@@ -180,7 +180,7 @@ def handle_message(event):
     
     def report(msg1,msg2,msg3):        
         global string
-        string = '誠心推薦!!%s, %s, %s' % (str(msg1),str(msg2)),str(msg3))
+        string = '誠心推薦!!%s, %s, %s' % (str(msg1),str(msg2),str(msg3))
         return string
       
     if message == 'ID':
