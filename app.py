@@ -181,35 +181,27 @@ def handle_message(event):
       
     if message == 'ID':
         choose_id()
-        return 0 
-    
+        
     if message == '年齡':
         choose_age()
-        return 0 
     
     if message == '性別':
         choose_gender()
-        return 0 
     
     if message == '清除':
         clear()
-        return 0 
     
     if message == '推薦':
         suggest(message,msg3)
-        return 0 
     
     if mongodb.get_ready(uid,'users') ==1 and msg1==1:
-        get_id(message)
-        return 0 
+        get_id(message)        
     
     if mongodb.get_ready(uid,'users') ==1 and msg2==1:
         get_age(message)
-        return 0 
     
     if mongodb.get_ready(uid,'users') ==1 and msg3==1:
         get_gender(message)
-        return 0 
     """
     line_bot_api.reply_message(
         event.reply_token,
