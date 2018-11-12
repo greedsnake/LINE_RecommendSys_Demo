@@ -88,11 +88,11 @@ def handle_follow(event):
         mongodb.insert_one(dic,'users')
 
 
-
-@handler.add(MessageEvent, message=TextMessage)
 message1 = ""
 message2 = ""
 message3 = ""
+@handler.add(MessageEvent, message=TextMessage)
+
 def handle_message(event):
     '''
     當收到使用者訊息的時候
@@ -171,8 +171,8 @@ def handle_message(event):
     
     def report(x,y,z):
         
-        string = '推薦您使用:\n 1. %s\n 2. %s\n 3. %s\n 4. %s\n 5. %s\n' % _
-            ('sony','小米','samsung','iphone','HTC')
+        "string = '推薦您使用:\n 1. %s\n 2. %s\n 3. %s\n 4. %s\n 5. %s\n' % ('sony','小米','samsung','iphone','HTC')
+        string = '誠心推薦!!'
         return string
       
     if message == 'ID':
