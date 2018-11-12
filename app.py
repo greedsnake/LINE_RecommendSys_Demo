@@ -42,9 +42,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('tALJGyw5Gzes13Eo59pE+eRR5fV11Dw6SYCshuxGkwjaMr+PEI+EeKY9YzoUyERZIccZqD4zTt4LKtYkVQINT1eOEgZaPtAReN+Oc2V8hsmbNgNsw+SnQDuqDLo8EzR1+7ID/7KkCNCbmMURnvxhQQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('ee211365f9ec399943c478989fe2eed5')
 
-msg1 = ""
-msg2 = ""
-msg3 = ""
+msg1 = msg2 = msg3 = ""
 fmsg1 = fmsg2 = fmsg3 = 0
 
 @app.route("/callback", methods=['POST'])
@@ -163,15 +161,13 @@ def handle_message(event):
       
     def clear():
       global msg1,msg2,msg3
-      msg1 = ""
-      msg2 = ""
-      msg3 = ""
+      msg1 = msg2 = msg3 = ""
       remessage = TextSendMessage(text='已清除輸入資料')
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
       
-    def suggest(message):
+    def suggest(message,msg3):
       global msg1,msg2
       cid = msg1
       age = msg2
@@ -193,9 +189,8 @@ def handle_message(event):
                       event.reply_token,
                       remessage2)      
     
-    def report(msg1,msg2,msg3):        
-        global string
-        string = '誠心推薦!!%s, %s, %s' % (str(msg1),str(msg2),str(msg3))
+    def report(cid,age,sex):        
+        string = '誠心推薦!!%s, %s, %s' % (str(cid),str(age),str(sex))
         return string 
     
     if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
@@ -227,14 +222,14 @@ def handle_message(event):
         return 0 
     
     if message == '推薦':
-        suggest(message)
+        suggest(message,msg3)
         return 0 
 
-    """
+    
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
-    """
+    
     return 0 
 
 
