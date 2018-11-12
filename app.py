@@ -158,7 +158,7 @@ def handle_message(event):
                       remessage)
       
     def suggest(message,msg3):
-      global msg1,msg2,msg3
+      global msg1,msg2
       if msg3==0:
           sex="女性"
       elif msg3==1:
