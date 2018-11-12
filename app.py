@@ -46,7 +46,9 @@ msg1 = ""
 msg2 = ""
 msg3 = ""
 
+
 @app.route("/callback", methods=['POST'])
+
 def callback():
     
     # get X-Line-Signature header value
@@ -153,7 +155,7 @@ def handle_message(event):
           sex="男性"
       else:
           sex="未知"
-      remessage = TextSendMessage(text='查詢顧客ID=%s;年齡=%s; 性別=%s 的推薦商品:' % (str(message1), str(message2), sex) )
+      remessage = TextSendMessage(text='查詢顧客ID=%s;年齡=%s; 性別=%s 的推薦商品:' % (str(msg1), str(msg2), sex) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -201,10 +203,11 @@ def handle_message(event):
     if mongodb.get_ready(uid,'users') ==1 and msg3==1:
         get_gender(message)
         return 0 
-    
+    """
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
+    """
     return 0 
 
 
