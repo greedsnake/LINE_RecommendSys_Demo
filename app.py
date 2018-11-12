@@ -87,13 +87,14 @@ def handle_follow(event):
         
         mongodb.insert_one(dic,'users')
 
-
 message1 = ""
 message2 = ""
 message3 = ""
+
 @handler.add(MessageEvent, message=TextMessage)
 
 def handle_message(event):
+
     '''
     當收到使用者訊息的時候
     '''
@@ -156,8 +157,7 @@ def handle_message(event):
           sex="男性"
       else:
           sex="未知"
-      remessage = TextSendMessage(text='查詢顧客ID=%s;年齡=%s; 性別=%s 的推薦商品:' %
-                                  (str(message1), str(message2), sex) )
+      remessage = TextSendMessage(text='查詢顧客ID=%s;年齡=%s; 性別=%s 的推薦商品:' % (str(message1), str(message2), sex) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -171,8 +171,7 @@ def handle_message(event):
     
     def report(x,y,z):
         
-        "string = '推薦您使用:\n 1. %s\n 2. %s\n 3. %s\n 4. %s\n 5. %s\n' % ('sony','小米','samsung','iphone','HTC')
-        string = '誠心推薦!!'
+        string = '誠心推薦!!%s, %s, %s' % (str(x),str(y),str(z))
         return string
       
     if message == 'ID':
