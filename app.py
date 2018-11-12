@@ -161,6 +161,7 @@ def handle_message(event):
       
     def clear():
       global msg1,msg2,msg3
+      global fmsg1,fmsg2,fmsg3
       msg1 = msg2 = msg3 = ""
       fmsg1 = fmsg2 = fmsg3 = 0
       remessage = TextSendMessage(text='已清除輸入資料')
@@ -169,7 +170,7 @@ def handle_message(event):
                       remessage)
       
     def suggest(message,msg3):
-      global msg1,msg2
+      
       cid = msg1
       age = msg2
       if str(msg3)==str(0):
@@ -183,6 +184,7 @@ def handle_message(event):
                       event.reply_token,
                       remessage)
       text = report(cid,age,sex)
+      datetime.time.sleep(2)
       # 包裝訊息
       remessage2 = TextSendMessage(text=text)
       # 回應使用者
@@ -206,26 +208,25 @@ def handle_message(event):
         get_gender(message)
         return 0
     
-    if fmsg1==fmsg2==fmsg3==0: 
-        if message == 'ID':
-            choose_id()
-            return 0 
+    if message == 'ID':
+        choose_id()
+        return 0 
     
-        if message == '年齡':
-            choose_age()
-            return 0 
+    if message == '年齡':
+        choose_age()
+        return 0 
     
-        if message == '性別':
-            choose_gender()
-            return 0 
+    if message == '性別':
+        choose_gender()
+        return 0 
     
-        if message == '清除':
-            clear()
-            return 0 
+    if message == '清除':
+        clear()
+        return 0 
     
-        if message == '推薦':
-            suggest(message,msg3)
-            return 0 
+    if message == '推薦':
+        suggest(message,msg3)
+        return 0 
 
     """
     line_bot_api.reply_message(
