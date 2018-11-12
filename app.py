@@ -162,6 +162,7 @@ def handle_message(event):
     def clear():
       global msg1,msg2,msg3
       msg1 = msg2 = msg3 = ""
+      fmsg1 = fmsg2 = fmsg3 = 0
       remessage = TextSendMessage(text='已清除輸入資料')
       line_bot_api.reply_message(
                       event.reply_token,
@@ -204,32 +205,33 @@ def handle_message(event):
     if mongodb.get_ready(uid,'users') ==1 and fmsg3==1:
         get_gender(message)
         return 0
-     
-    if message == 'ID':
-        choose_id()
-        return 0 
     
-    if message == '年齡':
-        choose_age()
-        return 0 
+    if fmsg1==fmsg2==fmsg3==0: 
+        if message == 'ID':
+            choose_id()
+            return 0 
     
-    if message == '性別':
-        choose_gender()
-        return 0 
+        if message == '年齡':
+            choose_age()
+            return 0 
     
-    if message == '清除':
-        clear()
-        return 0 
+        if message == '性別':
+            choose_gender()
+            return 0 
     
-    if message == '推薦':
-        suggest(message,msg3)
-        return 0 
+        if message == '清除':
+            clear()
+            return 0 
+    
+        if message == '推薦':
+            suggest(message,msg3)
+            return 0 
 
-    
+    """
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
-    
+    """
     return 0 
 
 
