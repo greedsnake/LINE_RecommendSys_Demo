@@ -114,7 +114,7 @@ def handle_message(event):
       global msg1,fmsg1
       fmsg1 = 0
       msg1 = message
-      remessage = TextSendMessage(text='推薦客戶編號%s的商品' % msg1)
+      remessage = TextSendMessage(text='推薦客戶編號%s的商品:' % report1(msg1))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -128,8 +128,7 @@ def handle_message(event):
       mongodb.update_byid(uid,{'ready':1},'users')
       global fmsg2
       fmsg2 = 1
-      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0'\
-                                  ,男性請填'1'")
+      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0',男性請填'1'")
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
