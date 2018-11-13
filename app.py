@@ -34,7 +34,6 @@ from datetime import datetime
 
 # customer module
 import mongodb
-import corwler
 import pandas as pd
 import MTF
 
@@ -165,7 +164,7 @@ def handle_message(event):
       transex(message)
       group = MTF.insert_trans(msg2[0],0)
       sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s,%s,%s' % (msg2[0],sex,str(sug[0][1]),str(sug[1][1]),str(sug[2][1]) ))
+      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s,%s' % (msg2[0],sex,str(sug[0][1]),str(sug[1][1]) ))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
