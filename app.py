@@ -193,9 +193,7 @@ def handle_message(event):
     def transex(message):
       global msg2,sex
       msg2 = message
-      msg2 = msg2.split(',')
-      msg2[0]=int(msg2[0])
-      msg2[1]=int(msg2[1])
+      msg2 = msg2.split(',')      
       msg2 = tuple(msg2)
       if msg2[1]=='0':
           sex='女性'
@@ -203,6 +201,8 @@ def handle_message(event):
           sex='男性'
       else:
           sex=''
+      msg2[0]=int(msg2[0])
+      msg2[1]=int(msg2[1])
       return 0
 
 
