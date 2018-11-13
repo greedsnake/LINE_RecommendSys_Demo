@@ -70,6 +70,7 @@ def handle_follow(event):
     當使用者加入時觸動
     '''
     # 取得使用者資料
+    datetime.sleep(5)
     profile = line_bot_api.get_profile(event.source.user_id)
     name = profile.display_name
     uid = profile.user_id
