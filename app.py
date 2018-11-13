@@ -136,14 +136,14 @@ def handle_message(event):
       msg2 = message
       msg2 = msg2.split(',')
       msg2 = tuple(msg2)
-      if msg2[1]==0:
+      if msg2[1]=='0':
           sex='女性'
-      elif msg2[1]==1:
+      elif msg2[1]=='1':
           sex='男性'
       else:
           sex=''
 
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2,sex))
+      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
