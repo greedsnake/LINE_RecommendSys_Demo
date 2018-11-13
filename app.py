@@ -134,7 +134,7 @@ def handle_message(event):
       global msg2,fmsg2
       fmsg2 = 0
       msg2 = message
-      """
+      
       msg2 = tuple(msg2)
       if msg2[1]==0:
           sex='女性'
@@ -142,19 +142,15 @@ def handle_message(event):
           sex='男性'
       else:
           sex=''
-          """
-      sex='afv'
+
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2,sex))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
-      remessage2 = TextSendMessage(text = report2(msg2))
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage2)
-      
+
     def hello():
-        time = str(datetime.now().strftime('%Y-%m-%d'))        
+        time = str(datetime.now().strftime('%Y-%m-%d'))       
+        now = datetime.now()
         greet=''
         twh=int(now.hour+8)
         if twh>24:
