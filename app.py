@@ -110,7 +110,7 @@ def handle_message(event):
       
     def get_id1(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1,fid1
+      global msg1
       fid1 = 0
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
@@ -120,7 +120,7 @@ def handle_message(event):
       
     def get_id2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1,fid2
+      global msg1
       fid2 = 0
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
@@ -129,7 +129,7 @@ def handle_message(event):
                       remessage)
     def get_id3(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1,fid3
+      global msg1
       fid3 = 0
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
@@ -147,7 +147,7 @@ def handle_message(event):
            
     def get_group1(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2,fgroup1
+      global msg2
       fgroup1 = 0
       transex(message)
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
@@ -156,7 +156,7 @@ def handle_message(event):
                       remessage)
     def get_group2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2,fgroup2
+      global msg2
       fgroup2 = 0
       transex(message)
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
@@ -166,7 +166,7 @@ def handle_message(event):
       
     def get_group3(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2,fgroup3
+      global msg2
       fgroup3 = 0
       transex(message)
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
@@ -175,7 +175,7 @@ def handle_message(event):
                       remessage)
       
     def transex(message):
-      global msg2,sex
+      global sex
       msg2 = message
       msg2 = msg2.split(',')
       msg2 = tuple(msg2)
