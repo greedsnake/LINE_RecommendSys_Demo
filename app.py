@@ -111,10 +111,11 @@ def handle_message(event):
       
     def get_id(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1,fmsg1
+      global msg1,fmsg1,cmd
+      cmd = get_id(message)
       fmsg1 = 0
       msg1 = message
-      remessage = TextSendMessage(text='推薦客戶編號%s的商品:' % report1(msg1))
+      remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -138,7 +139,8 @@ def handle_message(event):
       global msg2,fmsg2,cmd
       cmd = get_age(message)
       fmsg2 = 0
-      msg2 = str.split(str(message))
+      msg2 = message
+      """
       msg2 = tuple(msg2)
       if msg2[1]==0:
           sex='女性'
@@ -146,7 +148,9 @@ def handle_message(event):
           sex='男性'
       else:
           sex=''
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
+          """
+      sex='afv'
+      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2,sex))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -156,8 +160,18 @@ def handle_message(event):
                       remessage2)
       
     def hello():
-        time = str(datetime.now())
-        remessage = TextSendMessage(text = '您好，現在是%s，早安!' % time)
+        time = str(datetime.now().strftime('%Y-%m-%d'))        
+        greet=''
+        twh=int(now.hour+8)
+        if twh>24:
+            twh=twh-24
+        if twh<12:
+            greet='早安!'
+        elif twh<18:
+            greet='午安!'
+        else:
+            greet='晚安!'
+        remessage = TextSendMessage(text = '您好，今天是%s，%s!' % time)
         line_bot_api.reply_message(
                       event.reply_token,
                       remessage)        
