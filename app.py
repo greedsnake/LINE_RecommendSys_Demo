@@ -163,7 +163,8 @@ def handle_message(event):
       bins = [0, 19, 22, 23, 32, 40, 100]
       fgroup1 = 0
       transex(message)
-      group = MTF.insert_trans(msg2,bins)
+      ms2 = tuple(int(msg2[0],int(msg2[1])))
+      group = MTF.insert_trans(ms2,bins)
       sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s,%s,%s' % (msg2[0],sex,str(sug.brand[0]),str(sug.brand[1]),str(sug.brand[2]) ))
       line_bot_api.reply_message(
