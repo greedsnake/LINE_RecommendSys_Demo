@@ -43,7 +43,8 @@ line_bot_api = LineBotApi('tALJGyw5Gzes13Eo59pE+eRR5fV11Dw6SYCshuxGkwjaMr+PEI+Ee
 handler = WebhookHandler('ee211365f9ec399943c478989fe2eed5')
 
 msg1 = msg2 = msg3 = ""
-fmsg1 = fmsg2 = fmsg3 = 0
+fid1 = fid2 = fid3 = 0
+fgroup1 = fgroup2 = fgroup3 = 0
 cmd='您還沒輸入任何指令'
 @app.route("/callback", methods=['POST'])
 
