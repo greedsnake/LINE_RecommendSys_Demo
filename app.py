@@ -110,7 +110,7 @@ def handle_message(event):
       
     def get_id1(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1
+      global msg1,fid1
       fid1 = 0
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
@@ -120,7 +120,7 @@ def handle_message(event):
       
     def get_id2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1
+      global msg1,fid2
       fid2 = 0
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
@@ -129,7 +129,7 @@ def handle_message(event):
                       remessage)
     def get_id3(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1
+      global msg1,fid3
       fid3 = 0
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
@@ -147,7 +147,7 @@ def handle_message(event):
            
     def get_group1(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2
+      global msg2,fgroup1
       fgroup1 = 0
       transex(message)
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
@@ -156,7 +156,7 @@ def handle_message(event):
                       remessage)
     def get_group2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2
+      global msg2,fgroup2
       fgroup2 = 0
       transex(message)
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
@@ -166,7 +166,7 @@ def handle_message(event):
       
     def get_group3(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2
+      global msg2,fgroup3
       fgroup3 = 0
       transex(message)
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
@@ -175,7 +175,7 @@ def handle_message(event):
                       remessage)
       
     def transex(message):
-      global sex
+      global msg2,sex
       msg2 = message
       msg2 = msg2.split(',')
       msg2 = tuple(msg2)
@@ -221,37 +221,31 @@ def handle_message(event):
         return 0
     
     if message == 'ID-品牌':
-        global fid1
         fid1 = 1
         choose_id()
         return 0     
     
     if message == 'ID-類別':
-        global fid2
         fid2 = 1
         choose_id()
         return 0 
     
     if message == 'ID-品牌類別':
-        global fid3
         fid3 = 1
         choose_id()
         return 0 
     
     if message == '族群-品牌':
-        global fgroup1
         fgroup1 = 1
         choose_group()
         return 0     
     
     if message == '族群-類別':
-        global fgroup2
         fgroup2 = 1
         choose_group()
         return 0 
     
     if message == '族群-品牌類別':
-        global fgroup3
         fgroup3 = 1
         choose_group()
         return 0   
