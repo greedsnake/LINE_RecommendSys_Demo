@@ -96,7 +96,6 @@ def handle_message(event):
     '''
     當收到使用者訊息的時候
     '''
-    time.sleep(3)
     profile = line_bot_api.get_profile(event.source.user_id)
     name = profile.display_name
     uid = profile.user_id
@@ -105,8 +104,6 @@ def handle_message(event):
     def choose_id():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      global fmsg1
-      fmsg1 = 1
       remessage = TextSendMessage(text='請輸入客戶編號')
       line_bot_api.reply_message(
                       event.reply_token,
@@ -114,25 +111,22 @@ def handle_message(event):
       
     def get_id(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1,fmsg1
-      fmsg1 = 0
+      global msg1
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
       
-    def choose_age():
+    def choose_group():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      global fmsg2
-      fmsg2 = 1
       remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0',男性請填'1'")
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
            
-    def get_age(message):    
+    def get_group(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg2,fmsg2
       fmsg2 = 0
@@ -145,35 +139,12 @@ def handle_message(event):
           sex='男性'
       else:
           sex=''
-
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
 
-    def hello():
-        time = str(datetime.now().strftime('%Y-%m-%d'))       
-        now = datetime.now()
-        greet=''
-        twh=int(now.hour+8)
-        if twh>24:
-            twh=twh-24
-        if twh<12:
-            greet='早安!'
-        elif twh<18:
-            greet='午安!'
-        else:
-            greet='晚安!'
-        remessage = TextSendMessage(text = '您好，今天是%s，%s!' % time)
-        line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)        
-      
-    def resend():
-        cmd
-        
-      
-    
+
     def report1(cid):        
         string = '誠心推薦!!%s' % str(cid)
         return string 
@@ -182,29 +153,65 @@ def handle_message(event):
         string = '誠心推薦!!%s, %s' % (tup[0],tup[1])
         return string 
     
-    if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
+    if mongodb.get_ready(uid,'users') ==1 and fid1==1:
         get_id(message)
         return 0
     
-    if mongodb.get_ready(uid,'users') ==1 and fmsg2==1:
-        get_age(message)
+    if mongodb.get_ready(uid,'users') ==1 and fid2==1:
+        get_id(message)
         return 0
     
-    if message == 'ID':
+    if mongodb.get_ready(uid,'users') ==1 and fid3==1:
+        get_id(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fgroup1==1:
+        get_group(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fgroup2==1:
+        get_group(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fgroup3==1:
+        get_group(message)
+        return 0
+    
+    if message == 'ID-品牌':
+        global fid1
+        fid1 = 1
+        choose_id()
+        return 0     
+    
+    if message == 'ID-類別':
+        global fid2
+        fid2 = 1
         choose_id()
         return 0 
     
-    if message == '性別年齡':
-        choose_age()
+    if message == 'ID-品牌類別':
+        global fid3
+        fid3 = 1
+        choose_id()
         return 0 
     
-    if message == '日期':
-        hello()
-        return 0 
-    
-    if message == '重送':
-        cmd
+    if message == '族群-品牌':
+        global fgroup1
+        fgroup1 = 1
+        choose_group()
         return 0     
+    
+    if message == '族群-類別':
+        global fgroup2
+        fgroup2 = 1
+        choose_group()
+        return 0 
+    
+    if message == '族群-品牌類別':
+        global fgroup3
+        fgroup3 = 1
+        choose_group()
+        return 0   
     
     line_bot_api.reply_message(
         event.reply_token,
