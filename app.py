@@ -196,30 +196,6 @@ def handle_message(event):
         string = '誠心推薦!!%s, %s' % (tup[0],tup[1])
         return string 
     
-    if mongodb.get_ready(uid,'users') ==1 and fid1==1:
-        get_id1(message)
-        return 0
-    
-    if mongodb.get_ready(uid,'users') ==1 and fid2==1:
-        get_id2(message)
-        return 0
-    
-    if mongodb.get_ready(uid,'users') ==1 and fid3==1:
-        get_id3(message)
-        return 0
-    
-    if mongodb.get_ready(uid,'users') ==1 and fgroup1==1:
-        get_group1(message)
-        return 0
-    
-    if mongodb.get_ready(uid,'users') ==1 and fgroup2==1:
-        get_group2(message)
-        return 0
-    
-    if mongodb.get_ready(uid,'users') ==1 and fgroup3==1:
-        get_group3(message)
-        return 0
-    
     if message == 'ID-品牌':
         fid1 = 1
         choose_id()
@@ -249,6 +225,32 @@ def handle_message(event):
         fgroup3 = 1
         choose_group()
         return 0   
+    
+    if mongodb.get_ready(uid,'users') ==1 and fid1==1:
+        get_id1(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fid2==1:
+        get_id2(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fid3==1:
+        get_id3(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fgroup1==1:
+        get_group1(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fgroup2==1:
+        get_group2(message)
+        return 0
+    
+    if mongodb.get_ready(uid,'users') ==1 and fgroup3==1:
+        get_group3(message)
+        return 0
+    
+
     
     line_bot_api.reply_message(
         event.reply_token,
