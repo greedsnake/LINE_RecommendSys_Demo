@@ -18,7 +18,9 @@ from linebot.models import *
 from pymongo import MongoClient
 import pymongo
 import urllib.parse
-from datetime import datetime 
+from datetime import datetime
+import time
+
 
 # server-side
 from flask import Flask, request, abort
@@ -70,7 +72,6 @@ def handle_follow(event):
     當使用者加入時觸動
     '''
     # 取得使用者資料
-    datetime.sleep(5000)
     profile = line_bot_api.get_profile(event.source.user_id)
     name = profile.display_name
     uid = profile.user_id
@@ -95,6 +96,7 @@ def handle_message(event):
     '''
     當收到使用者訊息的時候
     '''
+    time.sleep(3)
     profile = line_bot_api.get_profile(event.source.user_id)
     name = profile.display_name
     uid = profile.user_id
