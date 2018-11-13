@@ -114,31 +114,48 @@ def handle_message(event):
       global msg1,fmsg1
       fmsg1 = 0
       msg1 = message
-      rmsg1 = '顧客id=' + msg1
+      remessage = TextSendMessage(text='推薦客戶編號%s的商品' % msg1)
       line_bot_api.reply_message(
                       event.reply_token,
-                      rmsg1)
+                      remessage)
+      remessage2 = TextSendMessage(text = report1(msg1))
+      line_bot_api.reply_message(
+                      event.reply_token,
+                      remessage2)
       
     def choose_age():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
       global fmsg2
       fmsg2 = 1
-      remessage = TextSendMessage(text='請輸入客戶年齡')
+      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0'\
+                                  ,男性請填'1'")
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
            
     def get_age(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2,fmsg2
+      global msg2,fmsg2,cmd
+      cmd = get_age(message)
       fmsg2 = 0
-      msg2 = message
-      rmsg2 = '顧客年齡=' + msg2
+      msg2 = str.split(message)
+      msg2 = tuple(msg2)
+      if msg2[1]==0:
+          sex='女性'
+      elif msg2[1]==1:
+          sex='男性'
+      else:
+          sex=''
+      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
       line_bot_api.reply_message(
                       event.reply_token,
-                      rmsg2)
-    
+                      remessage)
+      remessage2 = TextSendMessage(text = report2(msg2))
+      line_bot_api.reply_message(
+                      event.reply_token,
+                      remessage2)
+      
     def choose_gender():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
@@ -190,10 +207,15 @@ def handle_message(event):
       # 回應使用者
       line_bot_api.reply_message(
                       event.reply_token,
-                      remessage2)      
+                      remessage2)
+      
     
-    def report(cid,age,sex):        
-        string = '誠心推薦!!%s, %s, %s' % (str(cid),str(age),str(sex))
+    def report1(cid):        
+        string = '誠心推薦!!%s' % str(cid)
+        return string 
+            
+    def report2(tup):        
+        string = '誠心推薦!!%s, %s' % (tup[0],tup[1])
         return string 
     
     if mongodb.get_ready(uid,'users') ==1 and fmsg1==1:
@@ -228,11 +250,11 @@ def handle_message(event):
         suggest(message,msg3)
         return 0 
 
-    """
+    
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
-    """
+    
     return 0 
 
 
