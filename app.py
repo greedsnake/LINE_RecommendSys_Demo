@@ -197,31 +197,37 @@ def handle_message(event):
         return string 
     
     if message == 'ID-品牌':
+        global fid1
         fid1 = 1
         choose_id()
         return 0     
     
     if message == 'ID-類別':
+        global fid2
         fid2 = 1
         choose_id()
         return 0 
     
     if message == 'ID-品牌類別':
+        global fid3
         fid3 = 1
         choose_id()
         return 0 
     
     if message == '族群-品牌':
+        global fgroup1
         fgroup1 = 1
         choose_group()
         return 0     
     
     if message == '族群-類別':
+        global fgroup2
         fgroup2 = 1
         choose_group()
         return 0 
     
     if message == '族群-品牌類別':
+        global fgroup3
         fgroup3 = 1
         choose_group()
         return 0   
