@@ -46,7 +46,7 @@ res_file = ['group_top_n_brand', 'group_top_n_category', 'group_top_n_pair']
 df_group_brand_res = pd.read_csv(f'{path[1]}{res_file[0]}.csv', encoding='utf8')
 df_group_cat_res = pd.read_csv(f'{path[1]}{res_file[1]}.csv', encoding='utf8')
 df_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
-
+bins = [0, 19, 22, 23, 32, 40, 100]
 # ---------------------------------------------------------------------
 
 app = Flask(__name__)
@@ -162,7 +162,7 @@ def handle_message(event):
       global msg2,fgroup1
       fgroup1 = 0
       transex(message)
-      group = MTF.insert_trans(msg2[0],0)
+      group = MTF.insert_trans(msg2,bins)
       sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
       remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s,%s' % (msg2[0],sex,str(sug[0][1]),str(sug[1][1]) ))
       line_bot_api.reply_message(
