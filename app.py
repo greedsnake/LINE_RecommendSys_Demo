@@ -111,18 +111,13 @@ def handle_message(event):
       
     def get_id(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg1,fmsg1,cmd
-      cmd = get_id(message)
+      global msg1,fmsg1
       fmsg1 = 0
       msg1 = message
       remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
-      remessage2 = TextSendMessage(text = report1(msg1))
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage2)
       
     def choose_age():
       # 設定使用者下一句話要群廣播
@@ -136,8 +131,7 @@ def handle_message(event):
            
     def get_age(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
-      global msg2,fmsg2,cmd
-      cmd = get_age(message)
+      global msg2,fmsg2
       fmsg2 = 0
       msg2 = message
       """
