@@ -44,7 +44,7 @@ handler = WebhookHandler('ee211365f9ec399943c478989fe2eed5')
 
 msg1 = msg2 = msg3 = ""
 fmsg1 = fmsg2 = fmsg3 = 0
-
+cmd='您還沒輸入任何指令'
 @app.route("/callback", methods=['POST'])
 
 def callback():
@@ -138,7 +138,7 @@ def handle_message(event):
       global msg2,fmsg2,cmd
       cmd = get_age(message)
       fmsg2 = 0
-      msg2 = str.split(message)
+      msg2 = str.split(str(message))
       msg2 = tuple(msg2)
       if msg2[1]==0:
           sex='女性'
@@ -155,58 +155,16 @@ def handle_message(event):
                       event.reply_token,
                       remessage2)
       
-    def choose_gender():
-      # 設定使用者下一句話要群廣播
-      mongodb.update_byid(uid,{'ready':1},'users')
-      global fmsg3
-      fmsg3 = 1
-      remessage = TextSendMessage(text='請輸入客戶性別(0:女性; 1:男性)')
-      line_bot_api.reply_message(
+    def hello():
+        time = str(datetime.now())
+        remessage = TextSendMessage(text = '您好，現在是%s，早安!' % time)
+        line_bot_api.reply_message(
                       event.reply_token,
-                      remessage)
+                      remessage)        
       
-    def get_gender(message):    
-      mongodb.update_byid(uid,{'ready':0},'users')
-      global msg3,fmsg3
-      fmsg3 = 0
-      msg3 = message
-      rmsg3 = '顧客性別=' + msg3
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      rmsg3)
-      
-    def clear():
-      global msg1,msg2,msg3
-      global fmsg1,fmsg2,fmsg3
-      msg1 = msg2 = msg3 = ""
-      fmsg1 = fmsg2 = fmsg3 = 0
-      remessage = TextSendMessage(text='已清除輸入資料')
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
-      
-    def suggest(message,msg3):
-      
-      cid = msg1
-      age = msg2
-      if str(msg3)==str(0):
-          sex="女性"
-      elif str(msg3)==str(1):
-          sex="男性"
-      else:
-          sex="未知"
-      remessage = TextSendMessage(text='查詢顧客ID=%s; 年齡=%s; 性別=%s 的推薦商品:' % (str(cid), str(age), sex) )
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
-      text = report(cid,age,sex)
-      datetime.time.sleep(2)
-      # 包裝訊息
-      remessage2 = TextSendMessage(text=text)
-      # 回應使用者
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage2)
+    def resend():
+        cmd
+        
       
     
     def report1(cid):        
@@ -225,30 +183,21 @@ def handle_message(event):
         get_age(message)
         return 0
     
-    if mongodb.get_ready(uid,'users') ==1 and fmsg3==1:
-        get_gender(message)
-        return 0
-    
     if message == 'ID':
         choose_id()
         return 0 
     
-    if message == '年齡':
+    if message == '性別年齡':
         choose_age()
         return 0 
     
-    if message == '性別':
-        choose_gender()
+    if message == '日期':
+        hello()
         return 0 
     
-    if message == '清除':
-        clear()
-        return 0 
-    
-    if message == '推薦':
-        suggest(message,msg3)
-        return 0 
-
+    if message == '重送':
+        cmd
+        return 0     
     
     line_bot_api.reply_message(
         event.reply_token,
