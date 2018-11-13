@@ -46,7 +46,7 @@ res_file = ['group_top_n_brand', 'group_top_n_category', 'group_top_n_pair']
 df_group_brand_res = pd.read_csv(f'{path[1]}{res_file[0]}.csv', encoding='utf8')
 df_group_cat_res = pd.read_csv(f'{path[1]}{res_file[1]}.csv', encoding='utf8')
 df_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
-bins = [0, 19, 22, 23, 32, 40, 100]
+
 # ---------------------------------------------------------------------
 
 app = Flask(__name__)
@@ -160,6 +160,7 @@ def handle_message(event):
     def get_group1(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg2,fgroup1
+      bins = [0, 19, 22, 23, 32, 40, 100]
       fgroup1 = 0
       transex(message)
       group = MTF.insert_trans(msg2,bins)
