@@ -134,7 +134,7 @@ def handle_message(event):
       global msg2,fmsg2
       fmsg2 = 0
       msg2 = message
-      
+      msg2 = msg2.split(',')
       msg2 = tuple(msg2)
       if msg2[1]==0:
           sex='女性'
