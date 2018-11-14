@@ -38,9 +38,12 @@ path = ['data/', 'result/']
 file = ['client', 'all_data']
 res_file = ['group_top_n_brand', 'group_top_n_category', 'group_top_n_pair']
 res_file2 = ['top_n_brand','top_n_category','top_n_cb']
+id_file = ['recommand_brand','recommand_category','recommand_brand_category']
 df_group_brand_res = pd.read_csv(f'{path[1]}{res_file[0]}.csv', encoding='utf8')
 df_group_cat_res = pd.read_csv(f'{path[1]}{res_file[1]}.csv', encoding='utf8')
 df_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
+df_id_brand_res = pd.read_csv(f'{path[1]}{id_file[0]}.csv', encoding='utf8',index_col='Unnamed: 0')
+id_list = list(df_id_brand_res.index)
 # ---------------------------------------------------------------------
 
 app = Flask(__name__)
@@ -119,10 +122,16 @@ def handle_message(event):
       global msg1,fid1
       fid1 = 0
       msg1 = message
-      remessage = TextSendMessage(text='推薦客戶編號%s的品牌:%s' % (msg1,report1(msg1)) )
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
+      if msg1 in ld_list:
+          remessage = TextSendMessage(text='推薦客戶編號%s的品牌:\n%s, %s, %s' % (msg1,df_id_brand_res.loc[msg1][0],df_id_brand_res.loc[msg1][1],df_id_brand_res.loc[msg1][2]) )
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+      else:
+          remessage = TextSendMessage(text='無此客戶')
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
       
     def get_id2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
