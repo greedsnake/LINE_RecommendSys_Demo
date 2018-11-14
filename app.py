@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Aug 24 18:12:45 2018
-
-@author: linzino
-"""
 
 from linebot.models import *
 from datetime import datetime 
@@ -46,7 +41,6 @@ res_file2 = ['top_n_brand','top_n_category','top_n_cb']
 df_group_brand_res = pd.read_csv(f'{path[1]}{res_file[0]}.csv', encoding='utf8')
 df_group_cat_res = pd.read_csv(f'{path[1]}{res_file[1]}.csv', encoding='utf8')
 df_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
-
 # ---------------------------------------------------------------------
 
 app = Flask(__name__)
@@ -125,7 +119,7 @@ def handle_message(event):
       global msg1,fid1
       fid1 = 0
       msg1 = message
-      remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
+      remessage = TextSendMessage(text='推薦客戶編號%s的品牌:%s' % (msg1,report1(msg1)) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -135,7 +129,7 @@ def handle_message(event):
       global msg1,fid2
       fid2 = 0
       msg1 = message
-      remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
+      remessage = TextSendMessage(text='推薦客戶編號%s的類別:%s' % (msg1,report1(msg1)) )
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -170,7 +164,7 @@ def handle_message(event):
           elif msg2[1]==1:
               sug = pd.read_csv(path[1]+res_file2[0]+'.csv', encoding='utf8', header=None).head(3)
               sug.columns= ['brand','score']
-          remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s, %s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
+          remessage = TextSendMessage(text='推薦%s歲%s客戶的品牌: %s, %s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
@@ -182,7 +176,7 @@ def handle_message(event):
       global msg2,fgroup2
       fgroup2 = 0
       transex(message)
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
+      remessage = TextSendMessage(text='推薦%s歲%s客戶的類別:' % (msg2[0],sex))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
