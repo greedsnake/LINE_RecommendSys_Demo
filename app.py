@@ -121,8 +121,8 @@ def handle_message(event):
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg1,fid1
       fid1 = 0
-      msg1 = message
-      if msg1 in ld_list:
+      msg1 = str(message)
+      if msg1 in id_list:
           remessage = TextSendMessage(text='推薦客戶編號%s的品牌:\n%s, %s, %s' % (msg1,df_id_brand_res.loc[msg1][0],df_id_brand_res.loc[msg1][1],df_id_brand_res.loc[msg1][2]) )
           line_bot_api.reply_message(
                           event.reply_token,
