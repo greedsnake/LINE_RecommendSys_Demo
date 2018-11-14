@@ -217,9 +217,9 @@ def handle_message(event):
           try:
               group = MTF.insert_trans(msg2,bins)
               if msg2[1]==0:
-                  sug = MTF.tar_recommand(df_group_cat_res, 'group', group, ['category'])
+                  sug = MTF.tar_recommand(df_cb_res, 'group', group, ['category', 'brand'])
               elif msg2[1]==1:
-                  sug = pd.read_csv(path[1]+res_file2[1]+'.csv', encoding='utf8').head(3)
+                  sug = pd.read_csv(path[1]+res_file2[2]+'.csv', encoding='utf8').head(3)
               remessage = TextSendMessage(text='推薦%s歲%s客戶的商品：\n%s-%s、%s-%s、%s-%s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.category[sug.index[0]],sug.brand[sug.index[1]],sug.category[sug.index[1]],sug.brand[sug.index[2]],sug.category[sug.index[2]] ))
               line_bot_api.reply_message(
                               event.reply_token,
