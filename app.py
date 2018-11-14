@@ -182,10 +182,25 @@ def handle_message(event):
       global msg2,fgroup2
       fgroup2 = 0
       transex(message)
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的類別:' % (msg2[0],sex))
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
+      if msg2=='error':
+          remessage = TextSendMessage(text='資料輸入錯誤')
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+      else:
+          try:
+              group = MTF.insert_trans(msg2,bins)
+              if msg2[1]==0:
+                  sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
+              elif msg2[1]==1:
+                  sug = pd.read_csv(path[1]+res_file2[1]+'.csv', encoding='utf8', header=None).head(3)
+                  sug.columns= ['brand','score']
+              remessage = TextSendMessage(text='推薦%s歲%s客戶的類別：\n %s, %s, %s' % (msg2[0],sex,sug.category[sug.index[0]],sug.category[sug.index[1]],sug.category[sug.index[2]] ))
+              line_bot_api.reply_message(
+                              event.reply_token,
+                              remessage)
+          except:
+              errorinput()          
       
     def get_group3(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
