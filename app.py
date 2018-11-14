@@ -157,19 +157,25 @@ def handle_message(event):
       bins = [0, 19, 21, 23, 33, 41, 101]
       fgroup1 = 0
       transex(message)
-      try:
-          group = MTF.insert_trans(msg2,bins)
-          if msg2[1]==0:
-              sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
-          elif msg2[1]==1:
-              sug = pd.read_csv(path[1]+res_file2[0]+'.csv', encoding='utf8', header=None).head(3)
-              sug.columns= ['brand','score']
-          remessage = TextSendMessage(text='推薦%s歲%s客戶的品牌：\n %s, %s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
+      if msg2=='error':
+          remessage = TextSendMessage(text='資料輸入錯誤')
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
-      except:
-          errorinput()          
+      else:
+          try:
+              group = MTF.insert_trans(msg2,bins)
+              if msg2[1]==0:
+                  sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
+              elif msg2[1]==1:
+                  sug = pd.read_csv(path[1]+res_file2[0]+'.csv', encoding='utf8', header=None).head(3)
+                  sug.columns= ['brand','score']
+              remessage = TextSendMessage(text='推薦%s歲%s客戶的品牌：\n %s, %s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
+              line_bot_api.reply_message(
+                              event.reply_token,
+                              remessage)
+          except:
+              errorinput()          
           
     def get_group2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
@@ -206,10 +212,8 @@ def handle_message(event):
           msg2[0]=int(msg2[0])
           msg2[1]=int(msg2[1])
           msg2 = tuple(msg2)
-      except TypeError:
-          msg2[0]=20
-          msg2[1]=0
-          msg2 = tuple(msg2)
+      except ValueError:
+          msg2 = 'error'
       return 0
     
     def errorinput():
