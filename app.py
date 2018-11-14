@@ -180,6 +180,7 @@ def handle_message(event):
     def get_group2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg2,fgroup2
+      bins = [0, 19, 21, 23, 33, 41, 101]
       fgroup2 = 0
       transex(message)
       if msg2=='error':
