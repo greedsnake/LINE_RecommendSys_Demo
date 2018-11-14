@@ -125,7 +125,9 @@ def handle_message(event):
       fid1 = 0
       msg1 = str(message)
       if msg1 in id_list:
-          remessage = TextSendMessage(text='推薦客戶編號%s的品牌：\n%s, %s, %s' % (msg1,df_id_brand_res.loc[msg1][0],df_id_brand_res.loc[msg1][1],df_id_brand_res.loc[msg1][2]) )
+          remessage = TextSendMessage(text='推薦客戶編號%s的品牌：\n%s, %s, %s' % \
+                                      (msg1, df_id_brand_res.loc[msg1][0], df_id_brand_res.loc[msg1][1], \
+                                       df_id_brand_res.loc[msg1][2]) )
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
@@ -141,7 +143,9 @@ def handle_message(event):
       fid2 = 0
       msg1 = str(message)
       if msg1 in id_list:
-          remessage = TextSendMessage(text='推薦客戶編號%s的類別：\n%s, %s, %s' % (msg1,df_id_cate_res.loc[msg1][0],df_id_cate_res.loc[msg1][1],df_id_cate_res.loc[msg1][2]) )
+          remessage = TextSendMessage(text='推薦客戶編號%s的類別：\n%s, %s, %s' % \
+                                      (msg1, df_id_cate_res.loc[msg1][0], df_id_cate_res.loc[msg1][1], \
+                                       df_id_cate_res.loc[msg1][2]) )
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
@@ -157,7 +161,10 @@ def handle_message(event):
       fid3 = 0
       msg1 = str(message)
       if msg1 in id_list:
-          remessage = TextSendMessage(text='推薦客戶編號%s的商品：\n%s, %s, %s' % (msg1,df_id_cb_res.loc[msg1][0],df_id_cb_res.loc[msg1][1],df_id_cb_res.loc[msg1][2]) )
+          remessage = TextSendMessage(text='推薦客戶編號%s的商品：\n%s-%s\n%s-%s\n%s-%s' % \
+                                      (msg1, df_id_cb_res.loc[msg1][0][1], df_id_cb_res.loc[msg1][0][0], \
+                                       df_id_cb_res.loc[msg1][1][1], df_id_cb_res.loc[msg1][1][0], \
+                                       df_id_cb_res.loc[msg1][2][1], df_id_cb_res.loc[msg1][2][0]) )
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
@@ -194,7 +201,9 @@ def handle_message(event):
               elif msg2[1]==1:
                   sug = pd.read_csv(path[1]+res_file2[0]+'.csv', encoding='utf8', header=None).head(3)
                   sug.columns= ['brand','score']
-              remessage = TextSendMessage(text='推薦%s歲%s客戶的品牌：\n%s, %s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
+              remessage = TextSendMessage(text='推薦%s歲%s客戶的品牌：\n%s, %s, %s' % \
+                                          (msg2[0], sex,sug.brand[sug.index[0]], \
+                                           sug.brand[sug.index[1]], sug.brand[sug.index[2]] ))
               line_bot_api.reply_message(
                               event.reply_token,
                               remessage)
@@ -219,7 +228,9 @@ def handle_message(event):
                   sug = MTF.tar_recommand(df_group_cat_res, 'group', group, ['category'])
               elif msg2[1]==1:
                   sug = pd.read_csv(path[1]+res_file2[1]+'.csv', encoding='utf8').head(3)
-              remessage = TextSendMessage(text='推薦%s歲%s客戶的類別：\n%s、%s、%s' % (msg2[0],sex,sug.category[sug.index[0]],sug.category[sug.index[1]],sug.category[sug.index[2]] ))
+              remessage = TextSendMessage(text='推薦%s歲%s客戶的類別：\n%s、%s、%s' % \
+                                          (msg2[0], sex, sug.category[sug.index[0]], \
+                                           sug.category[sug.index[1]], sug.category[sug.index[2]] ))
               line_bot_api.reply_message(
                               event.reply_token,
                               remessage)
@@ -244,7 +255,10 @@ def handle_message(event):
                   sug = MTF.tar_recommand(df_group_cb_res, 'group', group, ['category', 'brand'])
               elif msg2[1]==1:
                   sug = pd.read_csv(path[1]+res_file2[2]+'.csv', encoding='utf8').head(3)
-              remessage = TextSendMessage(text='推薦%s歲%s客戶的商品：\n%s-%s、%s-%s、%s-%s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.category[sug.index[0]],sug.brand[sug.index[1]],sug.category[sug.index[1]],sug.brand[sug.index[2]],sug.category[sug.index[2]] ))
+              remessage = TextSendMessage(text='推薦%s歲%s客戶的商品：\n%s-%s\n%s-%s\n%s-%s' % \
+                                          (msg2[0], sex, sug.brand[sug.index[0]], sug.category[sug.index[0]], \
+                                           sug.brand[sug.index[1]], sug.category[sug.index[1]], \
+                                           sug.brand[sug.index[2]], sug.category[sug.index[2]] ))
               line_bot_api.reply_message(
                               event.reply_token,
                               remessage)
