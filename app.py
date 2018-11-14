@@ -169,7 +169,7 @@ def handle_message(event):
                   sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
               elif msg2[1]==1:
                   sug = pd.read_csv(path[1]+res_file2[0]+'.csv', encoding='utf8', header=None).head(3)
-                  sug.columns= ['brand','score']
+                  sug.columns= ['category','score']
               remessage = TextSendMessage(text='推薦%s歲%s客戶的品牌：\n %s, %s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
               line_bot_api.reply_message(
                               event.reply_token,
@@ -192,10 +192,9 @@ def handle_message(event):
           try:
               group = MTF.insert_trans(msg2,bins)
               if msg2[1]==0:
-                  sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
+                  sug = MTF.tar_recommand(df_group_cat_res, 'group', group, ['category'])
               elif msg2[1]==1:
-                  sug = pd.read_csv(path[1]+res_file2[1]+'.csv', encoding='utf8', header=None).head(3)
-                  sug.columns= ['brand','score']
+                  sug = pd.read_csv(path[1]+res_file2[1]+'.csv', encoding='utf8').head(3)
               remessage = TextSendMessage(text='推薦%s歲%s客戶的類別：\n %s, %s, %s' % (msg2[0],sex,sug.category[sug.index[0]],sug.category[sug.index[1]],sug.category[sug.index[2]] ))
               line_bot_api.reply_message(
                               event.reply_token,
