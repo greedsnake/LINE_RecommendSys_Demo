@@ -160,12 +160,12 @@ def handle_message(event):
     def get_group1(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg2,fgroup1
-      bins = [0, 19, 22, 23, 32, 40, 100]
+      bins = [0, 19, 21, 23, 33, 41, 101]
       fgroup1 = 0
       transex(message)
       group = MTF.insert_trans(msg2,bins)
       sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s,%s,%s' % (msg2[0],sex,str(sug.brand[0]),str(sug.brand[1]),str(sug.brand[2]) ))
+      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s ,%s, %s' % (msg2[0],sex,str(sug.brand[0]),str(sug.brand[1]),str(sug.brand[2]) ))
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -193,7 +193,7 @@ def handle_message(event):
     def transex(message):
       global msg2,sex
       msg2 = message
-      msg2 = msg2.split(',')         
+      msg2 = msg2.split(',')         '
       if msg2[1]=='0':
           sex='女性'
       elif msg2[1]=='1':

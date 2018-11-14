@@ -44,11 +44,11 @@ def tar_recommand(df_res, user_title, tar_user, tar_title_list):
     >* tar_title_list: list of target items
     '''
     return df_res[df_res[user_title]==tar_user][tar_title_list]
-	
-	
+
 # ---------------------------------------------------------------------	
 
 # transformate data
+"""
 A = (55, 0) 
 bins = [0, 19, 22, 23, 32, 40, 100]
 group_id = insert_trans(A, bins)
@@ -56,11 +56,10 @@ group_id = insert_trans(A, bins)
 # ---------------------------------------------------------------------
 # get data: brand
 tar_recommand(df_group_brand_res, 'group', group_id, ['brand'])
-
 # ---------------------------------------------------------------------
 # get data: category
 tar_recommand(df_group_cat_res, 'group', group_id, ['category'])
-
 # ---------------------------------------------------------------------
 # get data: category & brand pair
 tar_recommand(df_cb_res, 'group', group_id, ['category', 'brand'])
+"""
