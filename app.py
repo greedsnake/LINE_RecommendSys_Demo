@@ -170,11 +170,11 @@ def handle_message(event):
           elif msg2[1]==1:
               sug = pd.read_csv(path[1]+res_file2[0]+'.csv', encoding='utf8', header=None).head(3)
               sug.columns= ['brand','score']
-          remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s ,%s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
+          remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s, %s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
-      except IndexError:
+      except:
           errorinput()          
           
     def get_group2(message):    
@@ -200,15 +200,14 @@ def handle_message(event):
     def transex(message):
       global msg2,sex
       msg2 = message
+      msg2 = msg2.replace('，',',')
       msg2 = msg2.split(',')         
       if msg2[1]=='0':
           sex='女性'
       elif msg2[1]=='1':
           sex='男性'
-      elif msg2[1]=='-1':
-          sex=''
       else:
-          sex='error'
+          sex=''
       try:
           msg2[0]=int(msg2[0])
           msg2[1]=int(msg2[1])
@@ -225,7 +224,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
-        elif msg2[1]!=(-1) or msg2[1]!=0 or msg2[1]!=1:
+        elif msg2[1]!=0 or msg2[1]!=1:
             remessage = TextSendMessage(text='無此性別')
             line_bot_api.reply_message(
                           event.reply_token,
