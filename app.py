@@ -152,7 +152,7 @@ def handle_message(event):
     def choose_group():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0',男性請填'1'")
+      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0',男性請填'1',不知性別請填'-1'")
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -163,13 +163,16 @@ def handle_message(event):
       bins = [0, 19, 21, 23, 33, 41, 101]
       fgroup1 = 0
       transex(message)
-      group = MTF.insert_trans(msg2,bins)
-      sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s ,%s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
-      
+      try:
+          group = MTF.insert_trans(msg2,bins)
+          sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])              
+          remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s ,%s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+      except IndexError:
+          errorinput()          
+          
     def get_group2(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg2,fgroup2
@@ -198,13 +201,36 @@ def handle_message(event):
           sex='女性'
       elif msg2[1]=='1':
           sex='男性'
-      else:
+      elif msg2[1]=='-1':
           sex=''
-      msg2[0]=int(msg2[0])
-      msg2[1]=int(msg2[1])
-      msg2 = tuple(msg2)
+      else:
+          sex='error'
+      try:
+          msg2[0]=int(msg2[0])
+          msg2[1]=int(msg2[1])
+          msg2 = tuple(msg2)
+      except TypeError:
+          msg2[0]=20
+          msg2[1]=0
+          msg2 = tuple(msg2)
       return 0
-
+    
+    def errorinput():
+        if msg2[0]<0 or msg2[0]>100:
+            remessage = TextSendMessage(text='無此年齡區間')
+            line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+        elif msg2[1]!=-1 or msg2[1]!=0 or msg2[1]!=1:
+            remessage = TextSendMessage(text='無此性別')
+            line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+        else:
+            remessage = TextSendMessage(text='資料輸入錯誤')
+            line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
 
     def report1(cid):        
         string = '誠心推薦!!%s' % str(cid)
