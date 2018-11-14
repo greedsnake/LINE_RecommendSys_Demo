@@ -42,7 +42,7 @@ import MTF
 path = ['data/', 'result/']
 file = ['client', 'all_data']
 res_file = ['group_top_n_brand', 'group_top_n_category', 'group_top_n_pair']
-
+res_file2 = ['top_n_brand','top_n_category','top_n_cb']
 df_group_brand_res = pd.read_csv(f'{path[1]}{res_file[0]}.csv', encoding='utf8')
 df_group_cat_res = pd.read_csv(f'{path[1]}{res_file[1]}.csv', encoding='utf8')
 df_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
@@ -152,7 +152,7 @@ def handle_message(event):
     def choose_group():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0',男性請填'1',不知性別請填'-1'")
+      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0',男性請填'1'")
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
@@ -165,7 +165,11 @@ def handle_message(event):
       transex(message)
       try:
           group = MTF.insert_trans(msg2,bins)
-          sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])              
+          if msg2[1]==0:
+              sug = MTF.tar_recommand(df_group_brand_res, 'group', group, ['brand'])
+          elif msg2[1]==1:
+              sug = pd.read_csv(path[1]+res_file2[0]+'.csv', encoding='utf8', header=None).head(3)
+              sug.columns= ['brand','score']
           remessage = TextSendMessage(text='推薦%s歲%s客戶的商品: %s ,%s, %s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.brand[sug.index[1]],sug.brand[sug.index[2]] ))
           line_bot_api.reply_message(
                           event.reply_token,
@@ -221,7 +225,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
-        elif msg2[1]!=-1 or msg2[1]!=0 or msg2[1]!=1:
+        elif msg2[1]!=(-1) or msg2[1]!=0 or msg2[1]!=1:
             remessage = TextSendMessage(text='無此性別')
             line_bot_api.reply_message(
                           event.reply_token,
