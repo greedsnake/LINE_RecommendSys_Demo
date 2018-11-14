@@ -193,7 +193,7 @@ def handle_message(event):
     def transex(message):
       global msg2,sex
       msg2 = message
-      msg2 = msg2.split(',')         '
+      msg2 = msg2.split(',')         
       if msg2[1]=='0':
           sex='女性'
       elif msg2[1]=='1':
