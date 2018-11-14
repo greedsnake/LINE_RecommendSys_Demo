@@ -41,8 +41,10 @@ res_file2 = ['top_n_brand','top_n_category','top_n_cb']
 id_file = ['recommand_brand','recommand_category','recommand_brand_category']
 df_group_brand_res = pd.read_csv(f'{path[1]}{res_file[0]}.csv', encoding='utf8')
 df_group_cat_res = pd.read_csv(f'{path[1]}{res_file[1]}.csv', encoding='utf8')
-df_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
+df_group_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
 df_id_brand_res = pd.read_csv(f'{path[1]}{id_file[0]}.csv', encoding='utf8',index_col='Unnamed: 0')
+df_id_cate_res = pd.read_csv(f'{path[1]}{id_file[1]}.csv', encoding='utf8',index_col='Unnamed: 0')
+df_id_cb_res = pd.read_csv(f'{path[1]}{id_file[2]}.csv', encoding='utf8',index_col='Unnamed: 0')
 id_list = list(df_id_brand_res.index)
 # ---------------------------------------------------------------------
 
@@ -123,7 +125,7 @@ def handle_message(event):
       fid1 = 0
       msg1 = str(message)
       if msg1 in id_list:
-          remessage = TextSendMessage(text='推薦客戶編號%s的品牌:\n%s, %s, %s' % (msg1,df_id_brand_res.loc[msg1][0],df_id_brand_res.loc[msg1][1],df_id_brand_res.loc[msg1][2]) )
+          remessage = TextSendMessage(text='推薦客戶編號%s的品牌：\n%s, %s, %s' % (msg1,df_id_brand_res.loc[msg1][0],df_id_brand_res.loc[msg1][1],df_id_brand_res.loc[msg1][2]) )
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
@@ -137,20 +139,33 @@ def handle_message(event):
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg1,fid2
       fid2 = 0
-      msg1 = message
-      remessage = TextSendMessage(text='推薦客戶編號%s的類別:%s' % (msg1,report1(msg1)) )
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
+      msg1 = str(message)
+      if msg1 in id_list:
+          remessage = TextSendMessage(text='推薦客戶編號%s的類別：\n%s, %s, %s' % (msg1,df_id_cate_res.loc[msg1][0],df_id_cate_res.loc[msg1][1],df_id_cate_res.loc[msg1][2]) )
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+      else:
+          remessage = TextSendMessage(text='無此客戶')
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+          
     def get_id3(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg1,fid3
       fid3 = 0
-      msg1 = message
-      remessage = TextSendMessage(text='推薦客戶編號%s的商品:%s' % (msg1,report1(msg1)) )
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
+      msg1 = str(message)
+      if msg1 in id_list:
+          remessage = TextSendMessage(text='推薦客戶編號%s的商品：\n%s, %s, %s' % (msg1,df_id_cb_res.loc[msg1][0],df_id_cb_res.loc[msg1][1],df_id_cb_res.loc[msg1][2]) )
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+      else:
+          remessage = TextSendMessage(text='無此客戶')
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
       
     def choose_group():
       # 設定使用者下一句話要群廣播
@@ -226,7 +241,7 @@ def handle_message(event):
           try:
               group = MTF.insert_trans(msg2,bins)
               if msg2[1]==0:
-                  sug = MTF.tar_recommand(df_cb_res, 'group', group, ['category', 'brand'])
+                  sug = MTF.tar_recommand(df_group_cb_res, 'group', group, ['category', 'brand'])
               elif msg2[1]==1:
                   sug = pd.read_csv(path[1]+res_file2[2]+'.csv', encoding='utf8').head(3)
               remessage = TextSendMessage(text='推薦%s歲%s客戶的商品：\n%s-%s、%s-%s、%s-%s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.category[sug.index[0]],sug.brand[sug.index[1]],sug.category[sug.index[1]],sug.brand[sug.index[2]],sug.category[sug.index[2]] ))
