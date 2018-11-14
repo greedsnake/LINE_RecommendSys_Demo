@@ -195,7 +195,7 @@ def handle_message(event):
                   sug = MTF.tar_recommand(df_group_cat_res, 'group', group, ['category'])
               elif msg2[1]==1:
                   sug = pd.read_csv(path[1]+res_file2[1]+'.csv', encoding='utf8').head(3)
-              remessage = TextSendMessage(text='推薦%s歲%s客戶的類別：\n%s, %s, %s' % (msg2[0],sex,sug.category[sug.index[0]],sug.category[sug.index[1]],sug.category[sug.index[2]] ))
+              remessage = TextSendMessage(text='推薦%s歲%s客戶的類別：\n%s、%s、%s' % (msg2[0],sex,sug.category[sug.index[0]],sug.category[sug.index[1]],sug.category[sug.index[2]] ))
               line_bot_api.reply_message(
                               event.reply_token,
                               remessage)
@@ -205,12 +205,27 @@ def handle_message(event):
     def get_group3(message):    
       mongodb.update_byid(uid,{'ready':0},'users')
       global msg2,fgroup3
+      bins = [0, 19, 21, 23, 33, 41, 101]
       fgroup3 = 0
       transex(message)
-      remessage = TextSendMessage(text='推薦%s歲%s客戶的商品:' % (msg2[0],sex))
-      line_bot_api.reply_message(
-                      event.reply_token,
-                      remessage)
+      if msg2=='error':
+          remessage = TextSendMessage(text='資料輸入錯誤')
+          line_bot_api.reply_message(
+                          event.reply_token,
+                          remessage)
+      else:
+          try:
+              group = MTF.insert_trans(msg2,bins)
+              if msg2[1]==0:
+                  sug = MTF.tar_recommand(df_group_cat_res, 'group', group, ['category'])
+              elif msg2[1]==1:
+                  sug = pd.read_csv(path[1]+res_file2[1]+'.csv', encoding='utf8').head(3)
+              remessage = TextSendMessage(text='推薦%s歲%s客戶的商品：\n%s-%s、%s-%s、%s-%s' % (msg2[0],sex,sug.brand[sug.index[0]],sug.category[sug.index[0]],sug.brand[sug.index[1]],sug.category[sug.index[1]],sug.brand[sug.index[2]],sug.category[sug.index[2]] ))
+              line_bot_api.reply_message(
+                              event.reply_token,
+                              remessage)
+          except:
+              errorinput() 
       
     def transex(message):
       global msg2,sex
