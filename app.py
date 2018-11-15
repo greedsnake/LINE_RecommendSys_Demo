@@ -45,8 +45,6 @@ df_group_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
 df_id_brand_res = pd.read_csv(f'{path[1]}{id_file[0]}.csv', encoding='utf8',index_col='Unnamed: 0')
 df_id_cate_res = pd.read_csv(f'{path[1]}{id_file[1]}.csv', encoding='utf8',index_col='Unnamed: 0')
 df_id_cb_res = pd.read_csv(f'{path[1]}{id_file[2]}.csv', encoding='utf8',index_col='Unnamed: 0')
-for i in df_id_cb_res.columns:
-    df_id_cb_res.loc[i]=df_id_cb_res.loc[i].apply(eval)
 id_list = list(df_id_brand_res.index)
 # ---------------------------------------------------------------------
 
@@ -164,9 +162,9 @@ def handle_message(event):
       msg1 = str(message)
       if msg1 in id_list:
           remessage = TextSendMessage(text='推薦客戶編號%s的商品：\n%s-%s\n%s-%s\n%s-%s' % \
-                                      (msg1, df_id_cb_res.loc[msg1][0][1], df_id_cb_res.loc[msg1][0][0], \
-                                       df_id_cb_res.loc[msg1][1][1], df_id_cb_res.loc[msg1][1][0], \
-                                       df_id_cb_res.loc[msg1][2][1], df_id_cb_res.loc[msg1][2][0]) )
+                                      (msg1, eval(df_id_cb_res.loc[msg1][0])[1], eval(df_id_cb_res.loc[msg1][0])[0], \
+                                       eval(df_id_cb_res.loc[msg1][1])[1], eval(df_id_cb_res.loc[msg1][1])[0], \
+                                       eval(df_id_cb_res.loc[msg1][2])[1], eval(df_id_cb_res.loc[msg1][2])[0]) )
           line_bot_api.reply_message(
                           event.reply_token,
                           remessage)
