@@ -143,7 +143,7 @@ def handle_message(event):
       fid2 = 0
       msg1 = str(message)
       if msg1 in id_list:
-          remessage = TextSendMessage(text='推薦客戶編號%s的類別：\n%s, %s, %s' % \
+          remessage = TextSendMessage(text='推薦客戶編號%s的類別：\n%s、%s、%s' % \
                                       (msg1, df_id_cate_res.loc[msg1][0], df_id_cate_res.loc[msg1][1], \
                                        df_id_cate_res.loc[msg1][2]) )
           line_bot_api.reply_message(
@@ -177,7 +177,7 @@ def handle_message(event):
     def choose_group():
       # 設定使用者下一句話要群廣播
       mongodb.update_byid(uid,{'ready':1},'users')
-      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age,gender)\n女性請填'0',男性請填'1'")
+      remessage = TextSendMessage(text="請輸入客戶年齡及性別(age, gender)\n女性請填'0',男性請填'1'\n如女性25歲=25,0")
       line_bot_api.reply_message(
                       event.reply_token,
                       remessage)
