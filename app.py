@@ -45,6 +45,8 @@ df_group_cb_res = pd.read_csv(f'{path[1]}{res_file[2]}.csv', encoding='utf8')
 df_id_brand_res = pd.read_csv(f'{path[1]}{id_file[0]}.csv', encoding='utf8',index_col='Unnamed: 0')
 df_id_cate_res = pd.read_csv(f'{path[1]}{id_file[1]}.csv', encoding='utf8',index_col='Unnamed: 0')
 df_id_cb_res = pd.read_csv(f'{path[1]}{id_file[2]}.csv', encoding='utf8',index_col='Unnamed: 0')
+for i in df_id_cb_res.columns:
+    df_id_cb_res.loc[i]=df_id_cb_res.loc[i].apply(eval)
 id_list = list(df_id_brand_res.index)
 # ---------------------------------------------------------------------
 
