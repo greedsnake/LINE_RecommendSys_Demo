@@ -16,7 +16,7 @@ import pandas as pd
 host = 'ds133632.mlab.com'
 port = '33632'
 username = urllib.parse.quote_plus('greedsnake')
-password = urllib.parse.quote_plus('pwd1234')
+password = urllib.parse.quote_plus('skane0605')
 # Authentication Database
 Authdb='snakedb'
 
