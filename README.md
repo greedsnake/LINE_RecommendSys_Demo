@@ -5,8 +5,8 @@
 >* 範例資料描述
 >* 開發工具與需求
 >* 推薦系統
->>1. 過去消費紀錄推薦
->>2. 消費者族群推薦
+>>1. [過去消費紀錄推薦](https://github.com/s1002574/LINE_RecommendSys_Demo/tree/master/recommand_system/recomand_by_user_log.ipynb)
+>>2. [消費者族群推薦](https://github.com/s1002574/LINE_RecommendSys_Demo/tree/master/recommand_system/group_top3_recommand.ipynb)
 >* APP 互動介面
 >>* 概念說明
 >>* 運作方式
